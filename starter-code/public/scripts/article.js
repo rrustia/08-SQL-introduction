@@ -1,5 +1,5 @@
 'use strict';
-
+/* eslint-disable */
 function Article (opts) {
   // REVIEW: Convert property assignment to a new pattern. Now, ALL properties of `opts` will be
   // assigned as properies of the newly created article object. We'll talk more about forEach() soon!
@@ -40,20 +40,24 @@ Article.prototype.toHtml = function() {
 
 // ++++++++++++++++++++++++++++++++++++++
 
-// TODO
+// DONE
 /**
  * OVERVIEW of
  * - Describe what the method does
  * - Inputs: identify any inputs and their source
  * - Outputs: identify any outputs and their destination
  */
+ // This method will take article objects as an input and push them into Article.all in chronological order.
+ // input is rows, output is Article.all
 Article.loadAll = function(rows) {
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // sorts the rows according to date
   rows.sort(function(a,b) {
     return (new Date(b.publishedOn)) - (new Date(a.publishedOn));
   });
 
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // push all new articles to .all
   rows.forEach(function(ele) {
     Article.all.push(new Article(ele));
   })
@@ -61,25 +65,32 @@ Article.loadAll = function(rows) {
 
 // ++++++++++++++++++++++++++++++++++++++
 
-// TODO
+// DONE
 /**
  * OVERVIEW of
  * - Describe what the method does
  * - Inputs: identify any inputs and their source
  * - Outputs: identify any outputs and their destination
  */
+ // Inputs are the table of "articles" and  data file "hackerIpsum.json".
+ // Outputs are article objects instantiated and possible error message if there's an error.
 Article.fetchAll = function(callback) {
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // This will get the table format from the app.get function in server.js
   $.get('/articles')
-  // TODO: describe what the following code is doing
-  .then(
-    function(results) {
+  // DONE: describe what the following code is doing
+  // This "then" function will initiate the functions within its code block that applies to '/articles'
+  .then(function(results) {
       if (results.length) { // If records exist in the DB
-        // TODO: describe what the following code is doing
+        // DONE: describe what the following code is doing
+        // Load all data from the table if it's not empty
+        // and does a callback to check for left over data.
         Article.loadAll(results);
         callback();
       } else { // if NO records exist in the DB
-        // TODO: describe what the following code is doing
+        // DONE: describe what the following code is doing
+        // Get data from local file "hackerIpsum.json" if there's no more data in the table
+        // and instantiate a new article and insert it in the database.
         $.getJSON('./data/hackerIpsum.json')
         .then(function(rawData) {
           rawData.forEach(function(item) {
@@ -87,11 +98,13 @@ Article.fetchAll = function(callback) {
             article.insertRecord(); // Add each record to the DB
           })
         })
-        // TODO: describe what the following code is doing
+        // DONE: describe what the following code is doing
+        // This tells the function that it's done retrieving data
         .then(function() {
           Article.fetchAll(callback);
         })
-        // TODO: describe what the following code is doing
+        // DONE: describe what the following code is doing
+        // If there's an error retrieving data, this will log the error message to the console.
         .catch(function(err) {
           console.error(err);
         });
@@ -102,20 +115,24 @@ Article.fetchAll = function(callback) {
 
 // ++++++++++++++++++++++++++++++++++++++
 
-// TODO
+// DONE
 /**
  * OVERVIEW of
  * - Describe what the method does
  * - Inputs: identify any inputs and their source
  * - Outputs: identify any outputs and their destination
  */
+ // This method will delete the table
+ // Input is the table, output is a none
 Article.truncateTable = function(callback) {
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // This will delete the table
   $.ajax({
     url: '/articles',
     method: 'DELETE',
   })
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // after the table is deleted, it will display the deleted data
   .then(function(data) {
     console.log(data);
     if (callback) callback();
@@ -124,17 +141,22 @@ Article.truncateTable = function(callback) {
 
 // ++++++++++++++++++++++++++++++++++++++
 
-// TODO
+// DONE
 /**
  * OVERVIEW of
  * - Describe what the method does
  * - Inputs: identify any inputs and their source
  * - Outputs: identify any outputs and their destination
  */
+ // This method will insert a record into the table.
+ // Input is the data to be inserted to the table
+ // Output is the console log.
 Article.prototype.insertRecord = function(callback) {
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // this will add another row to the table
   $.post('/articles', {author: this.author, authorUrl: this.authorUrl, body: this.body, category: this.category, publishedOn: this.publishedOn, title: this.title})
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // This will execute once the insertion is done.
   .then(function(data) {
     console.log(data);
     if (callback) callback();
@@ -143,20 +165,25 @@ Article.prototype.insertRecord = function(callback) {
 
 // ++++++++++++++++++++++++++++++++++++++
 
-// TODO
+// DONE
 /**
  * OVERVIEW of
  * - Describe what the method does
  * - Inputs: identify any inputs and their source
  * - Outputs: identify any outputs and their destination
  */
+ // The purpose of this method is to delete a specific article with the specified ID.
+ // Input is an article from the table.
+ // Output is console log.
 Article.prototype.deleteRecord = function(callback) {
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // Thi will look for the specific row with the ID and request a deletion of that article.
   $.ajax({
     url: `/articles/${this.article_id}`,
     method: 'DELETE'
   })
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // This will execute once the deletion is complete and log the data
   .then(function(data) {
     console.log(data);
     if (callback) callback();
@@ -165,19 +192,25 @@ Article.prototype.deleteRecord = function(callback) {
 
 // ++++++++++++++++++++++++++++++++++++++
 
-// TODO
+// DONE
 /**
  * OVERVIEW of
  * - Describe what the method does
  * - Inputs: identify any inputs and their source
  * - Outputs: identify any outputs and their destination
+ *
  */
+ // The purpose of this method is to updata a specific article with the ID in the table.
+ // Input is the table that will be updated
+ // Output is none.
 Article.prototype.updateRecord = function(callback) {
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // This will look for specific row with the ID.
   $.ajax({
     url: `/articles/${this.article_id}`,
     method: 'PUT',
-    data: {  // TODO: describe what this object is doing
+    data: {  // DONE: describe what this object is doing
+      // This will change the data of the row that was found.
       author: this.author,
       authorUrl: this.authorUrl,
       body: this.body,
@@ -186,7 +219,8 @@ Article.prototype.updateRecord = function(callback) {
       title: this.title
     }
   })
-  // TODO: describe what the following code is doing
+  // DONE: describe what the following code is doing
+  // This will log the data that has been updated.
   .then(function(data) {
     console.log(data);
     if (callback) callback();
