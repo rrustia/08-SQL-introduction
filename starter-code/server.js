@@ -99,7 +99,7 @@ app.delete('/articles/:id', function(request, response) {
 app.delete('/articles', function(request, response) {
   client.query(
     // TODO: Write the SQl query to truncate the table
-    'TRUNCATE TABLE articles'
+    'DELETE FROM articles'
   );
   response.send('Delete complete');
 });

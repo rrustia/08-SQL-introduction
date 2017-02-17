@@ -99,7 +99,7 @@ Article.fetchAll = function(callback) {
           })
         })
         // DONE: describe what the following code is doing
-        // This tells the function that it's done retrieving data
+        // This executes if there is an argument with fetchAll
         .then(function() {
           Article.fetchAll(callback);
         })
@@ -132,7 +132,7 @@ Article.truncateTable = function(callback) {
     method: 'DELETE',
   })
   // DONE: describe what the following code is doing
-  // after the table is deleted, it will display the deleted data
+  // callback if there is an argument passed by truncateTable
   .then(function(data) {
     console.log(data);
     if (callback) callback();
