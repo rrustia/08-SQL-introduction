@@ -57,7 +57,7 @@ Article.loadAll = function(rows) {
   });
 
   // DONE: describe what the following code is doing
-  // push all new articles to .all
+  // push all new articles to .all array
   rows.forEach(function(ele) {
     Article.all.push(new Article(ele));
   })
@@ -79,7 +79,7 @@ Article.fetchAll = function(callback) {
   // This will get the table format from the app.get function in server.js
   $.get('/articles')
   // DONE: describe what the following code is doing
-  // This "then" function will initiate the functions within its code block that applies to '/articles'
+  // This "then" function will initiate the functions within its code block that applies to '/articles' once .get is done reading.
   .then(function(results) {
       if (results.length) { // If records exist in the DB
         // DONE: describe what the following code is doing
@@ -220,7 +220,7 @@ Article.prototype.updateRecord = function(callback) {
     }
   })
   // DONE: describe what the following code is doing
-  // This will log the data that has been updated.
+  // This will log the data that has passed by the user as an argument
   .then(function(data) {
     console.log(data);
     if (callback) callback();
