@@ -54,8 +54,7 @@ app.post('/articles', function(request, response) {
   client.query(
     `INSERT INTO
     articles(title, author, "authorUrl", category, "publishedOn", body)
-    VALUES ($1, $2, $3, $4, $5, $6);
-    `, // DONE: (above) Write the SQL query to insert a new record
+    VALUES ($1, $2, $3, $4, $5, $6);`, // DONE: (above) Write the SQL query to insert a new record
     [
       request.body.title,
       request.body.author,
@@ -70,11 +69,11 @@ app.post('/articles', function(request, response) {
 
 app.put('/articles/:id', function(request, response) {
   client.query(
-    // TODO: Write the SQL query to update an existing record
+    // DONE: Write the SQL query to update an existing record
     `UPDATE articles
      SET title = $1, author =  $2, authorUrl = $3, category = $4, publishedOn = $5, body = $6
-     WHERE id=${this.article_id}`,
-    // TODO: Get each value from the request's body
+     WHERE id=${this.article_id};`,
+    // DONE: Get each value from the request's body
     [
       request.body.title,
       request.body.author,
@@ -89,17 +88,17 @@ app.put('/articles/:id', function(request, response) {
 
 app.delete('/articles/:id', function(request, response) {
   client.query(
-    // TODO: Write the SQL query to delete a record
-    `DELETE articles
-     WHERE `, [request.params.id]
+    // DONE: Write the SQL query to delete a record
+    `DELETE FROM articles
+     WHERE id = $1;`, [request.params.id]
   );
   response.send('Delete complete');
 });
 
 app.delete('/articles', function(request, response) {
   client.query(
-    // TODO: Write the SQl query to truncate the table
-    'DELETE FROM articles'
+    // DONE: Write the SQl query to truncate the table
+    'DELETE FROM articles;'
   );
   response.send('Delete complete');
 });
